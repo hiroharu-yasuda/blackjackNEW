@@ -6,6 +6,9 @@
 
 using namespace std;
 
+const int NUMBER_MAX = 13;
+const char* CARD_NUMBER[] = { "Joker", " A", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K" };
+const char* CARD_SUIT[] = { "  heart", "diamond", "  spade", "   club" };
 
 
 void ShowHand(Person& person) {
@@ -87,9 +90,9 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 	Player p1("inu");
-	Player p2("neko");
-	Player p3("baba");
-	Player p4("otani");
+	Player p2("dog");
+	Player p3("wanko");
+	Player p4("neko");
 	Player* players[4] = { &p1, &p2, &p3, &p4 };
 	int size = (sizeof players / sizeof players[0] - 1);
 

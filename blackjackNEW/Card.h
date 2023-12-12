@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+using namespace std;
 extern const int NUMBER_MAX;
 extern const char* CARD_NUMBER[];
 extern const char* CARD_SUIT[];

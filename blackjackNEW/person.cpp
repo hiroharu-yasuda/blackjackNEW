@@ -116,7 +116,7 @@ void Person::showHand() const {
 	for (; i < _cardNum; i++) {
 		printf("%s:%-2s ", CARD_SUIT[_hand[i].GetSuit()], CARD_NUMBER[_hand[i].GetNum()]);
 	}
-	for (int j = 0; j < 26 - (5 * i); j++) {
+	for (int j = 0; j < 4; j++) {
 		printf(" ");
 	}
 }

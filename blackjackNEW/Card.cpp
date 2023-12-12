@@ -15,11 +15,6 @@ bool Card::operator==(const Card other) {
 	}
 }
 
-Card::Card() {
-	_cardNum = 0;
-	_cardSuit = 0;
-}
-
 const int Card::GetNum() const {
 	return _cardNum;
 }
