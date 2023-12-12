@@ -8,7 +8,7 @@ private:
 public:
 	
 	int _cardNum;
-	Card _cardShoe[CARD_MAX];
+	Card _cardShoe[CARD_NUM];
 
 public:
 	Shoe();

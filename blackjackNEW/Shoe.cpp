@@ -1,34 +1,47 @@
-#include"Shoe.h"
 #include <iostream>
-#include <random> //乱数生成
-#include"common.h"
-
+#include <ctime>
+#include "Shoe.h"
+#include"Card.h"
 using namespace std;
-Shoe::Shoe() 
-{
-	_cardNum = CARD_NUM;
+
+
+// コンストラクタ
+Shoe::Shoe() {
+	_cardNum = CARD_NUM - 1;
+
+	int num = 0;
+	int suit = 0;
+
+
 	for (int i = 0; i < CARD_NUM; i++) {
-		_cardShoe[i] = i;
+		num = i % NUMBER_MAX + 1;
+		suit = i / NUMBER_MAX;
+		_cardShoe[i].SetCard(num, suit);
 	}
-	_shuffle();
 }
-Shoe::~Shoe()
-{
+
+Shoe::~Shoe() {
 
 }
-int Shoe::takeCard() 
-{
-	if (_cardNum <= 0)return -1;
-	//後ろから引いていく方がロジック的にも楽ちんらしい
+
+bool Shoe::takeCard(Card& card) {
+	card = _cardShoe[_cardNum];
+	if (card.GetNum() <= 0) {
+		return false;
+	}
+
+	_cardShoe[_cardNum].SetCard(-1, -1);
 	_cardNum--;
-	int card = _cardShoe[_cardNum];
-	_cardShoe[_cardNum] = -1;//念のためのデバック用
 
-	return card;
+	return true;
 }
+
+//シャッフル（フィッシャーイェーツ）
 void Shoe::_shuffle()
 {
-	for (int i = _cardNum; i > 1; --i) {
+	srand((unsigned int)time(NULL));
+
+	for (int i = _cardNum + 1; i > 1; --i) {
 		int a = i - 1;
 		int b = rand() % i;
 		swap(_cardShoe[a], _cardShoe[b]);

@@ -1,67 +1,128 @@
-﻿// blackjackNEW.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
-//
-
-#include <iostream>
-#include"Shoe.h"
-#include"Dealer.h"
-#include"Person.h"
-
-#include"Player.h"
-
+﻿#include <iostream>
+#include <ctime>
+#include "Shoe.h"
+#include "Player.h"
+#include "Dealer.h"
 
 using namespace std;
 
-static void ShowHand(Person& p) {
 
-	cout << "============================" << endl;
-	cout << p.Getname() << endl;
-	p.ShowHand();
-	cout << "============================" << endl;
+
+void ShowHand(Person& person) {
+	printf("========================\n");
+	printf("Dealer\n");
+	person.showName();
+	printf("\n\nHand\n");
+	person.showHand();
+	printf("\n\nScore\n");
+	person.showScore();
+	printf("\n========================\n");
 }
-static void showResult(Player& p, Dealer& d)
+
+void ShowHand(Person& p1, Person& p2, Person& p3, Person& p4) {
+	const Person* players[] = { &p1, &p2, &p3, &p4 };
+	int size = (sizeof players / sizeof players[0] - 1);
+
+	printf("\n");
+	for (int i = 0, end = size; i <= end; i++) {
+		printf("========================  ");
+	}
+	printf("\nPlayers\n");
+	// 名前
+	for (int i = 0, end = size; i <= end; i++) {
+		players[i]->showName();
+	}
+	printf("\n\n");
+	// 手札
+	for (int i = 0, end = size; i <= end; i++) {
+		printf("%-26s", "Hand");
+	}
+	printf("\n");
+	for (int i = 0, end = size; i <= end; i++) {
+		players[i]->showHand();
+	}
+	printf("\n\n");
+	// スコア
+	for (int i = 0, end = size; i <= end; i++) {
+		printf("%-26s", "Score");
+	}
+	printf("\n");
+	for (int i = 0, end = size; i <= end; i++) {
+		players[i]->showScore();
+	}
+	printf("\n");
+
+	for (int i = 0, end = size; i <= end; i++) {
+		printf("========================  ");
+	}
+	printf("\n");
+}
+
+static void showResult(Player& p1, Player& p2, Player& p3, Player& p4, Dealer& dealer)
 {
-	cout << "============================" << endl;
-	cout << "            result          " << endl;
-	cout << "============================" << endl;
-	ShowHand(p);
-	ShowHand(d);
+	const Player* players[] = { &p1, &p2, &p3, &p4 };
+	int size = (sizeof players / sizeof players[0] - 1);
 
-	if (p.calcScore() > d.calcScore()) {
-		cout << "Player Win!" << endl;
-	}
-	else if (p.calcScore() < d.calcScore()) {
-		cout << "Player Lose" << endl;
-	}
-	else {
-		cout << "Push" << endl;
+	printf("\n========================  \n");
+	printf("         RESULT           ");
+	printf("\n========================  \n");
+	ShowHand(dealer);
+	ShowHand(p1, p2, p3, p4);
+
+
+	for (int i = 0, end = size; i <= end; i++) {
+		if (players[i]->calcScore() > dealer.calcScore()) {
+			printf("%s Win\n", players[i]->getName());
+		}
+		else if (players[i]->calcScore() < dealer.calcScore()) {
+			printf("%s Lose\n", players[i]->getName());
+		}
+		else {
+			printf("%s Push\n", players[i]->getName());
+		}
 	}
 }
+
 int main()
 {
-	srand(time(NULL));
-	Player p("HAL");
-	Dealer d ;
+	srand((unsigned int)time(NULL));
+	Player p1("inu");
+	Player p2("neko");
+	Player p3("baba");
+	Player p4("otani");
+	Player* players[4] = { &p1, &p2, &p3, &p4 };
+	int size = (sizeof players / sizeof players[0] - 1);
+
+	Dealer d("Dealer");
 	Shoe shoe;
-	for (int i = 0; i < 2; i++) {
-		p.hit(&shoe);
-	}
-	ShowHand(p);
+	shoe._shuffle();
 
-	d.hit(&shoe);
-	
+	d.hit(shoe);
 	ShowHand(d);
+	d.hit(shoe);
 
-	if (p.play(&shoe) == true) {
+	for (int i = 0, end = size; i <= end; i++) {
+		for (int j = 0; j < 2; j++) {
+			players[i]->hit(shoe);
+		}
+	}
+	ShowHand(p1, p2, p3, p4);
 
-		d.play(&shoe);
-		
+	bool dealerFlag = false;
+	for (int i = 0, end = size; i <= end; i++) {
+		if (players[i]->Play(shoe)) {
+			dealerFlag = true;
+		}
+	}
+
+	if (dealerFlag) {
+		d.Play(shoe);
+
+		showResult(p1, p2, p3, p4, d);
 	}
 	else {
-		cout << "バーストしたのでyouの負けデース！！" << endl;
+		printf("全員バーストしたので負けです。");
 	}
-
-	showResult(p, d);
-
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー

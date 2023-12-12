@@ -17,10 +17,9 @@ void Player::PlayBase(Shoe& shoe) {
 	printf("\n%sのターン\n", getName());
 
 	//入力
-	char str[HAND_SIZE] = { " " }; //文字列型
-	//バーストするまでループ処理
+	char str[HAND_SIZE] = { " " }; 
 	do {
-		//手札の表示
+		//手札
 		printf("\n========================  \n");
 		showName();
 		printf("\n\nHand\n");
